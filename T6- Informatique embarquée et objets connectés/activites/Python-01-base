@@ -1,0 +1,81 @@
+#!/usr/bin/python
+## Import de la bibliothèque phue
+#
+import phue
+#Si la bibliothèque n'est pas installée entrer la commande pip install phue
+
+
+## Renseigner ici l'adresse IP du pont
+b = phue.Bridge('10.129.130.1') # Adresse IP du pont.
+#Si b.connect() est lancé pour la première fois il faut appuyer sur le bouton du pont et décommenter la ligne suivante
+b.connect()
+#Affiche le username utilisé par l'application phue_python
+print(b.username)
+
+print(b.get_light_objects())
+
+#### I. Les commandes de base
+#
+# 1. Vérifier si la lampe 1 est allumée ou éteinte
+b.get_light( 1 , 'on')
+# 2.1. Luminosité : paramétrer la luminosité de la lampe 1 à 254 (max)
+b.set_light(1, 'bri', 254)
+# 2.2. Luminosité : paramétrer la luminosité de la lampe 1 à 100
+b.set_light(1, 'bri', 100)
+# 3.1. Allumer la lampe 1
+b.set_light(1,'on', True)
+# 3.2. Eteindre la lampe 1
+b.set_light(1,'on', False)
+# 4. Récupérer le nom des lampes 1 et 2. Rappel [1,2] est une liste
+b.get_light([1,2], 'name')
+# 5. renommer la lampe 1 en 'toto'
+b.set_light(1, 'name', 'toto')
+### Question :
+#Quelle est la différence entre les commandes get et set ?
+
+
+## II. Les exercices de base 
+##Pour chaque question écrire un programme
+# 1. Vérifier si la lampe 2 est allumée ou éteinte et afficher le résultat sur la console
+
+# 2. Vérifier si la lampe 2 est allumée et paramétrer sa luminosité à 127 si elle est allumée
+if b.get_light(2, 'on') == True:
+    b.set_light(2, 'bri', 127)
+# 3. Vérifier si la lampe 2 est allumée ou éteinte. Si elle est allumée, l'éteindre. Si elle est éteinte, l'allumer avec une luminosité de 50.
+def test_lampe2():
+    if b.get_light(2, 'on') == False:
+        b.set_light(2, 'on', True)
+        b.set_light(2, 'bri', 50)
+    else:
+        b.set_light(2, 'on', False)
+    
+test_lampe2()
+# 4. Afficher  sur la console les 3 paramètres de la lampe 1 ( nom, si elle est allumée, luminosité) sous forme d'une liste
+def ParamLampe1():
+    Lampe1 = [b.get_light( 1, 'name'), b.get_light( 1 , 'on'), b.get_light( 1 , 'bri')]
+    return Lampe1
+    
+print (Lampe1)
+# 5. Modifier la luminosité de la lampe 2 avec un nombre aléatoire compris entre 1 et 254.
+import random
+def ModifBriAlea():
+    AleaBri = random.randint(1,255)
+    b.set_light(2, 'bri', AleaBri)
+    
+ModifBriAlea()
+    
+# 6. Récupérer la valeur de la luminosité de la lampe 2 dans une variable, puis allumer cette lampe pendant 5 secondes avec une luminosité diminuée de moitié et l'éteindre
+def DiminueMoitie():
+    t = b.get_light(2, 'bri')
+    b.set_light(2, 'bri', int(t/2))
+    
+DiminueMoitie()
+
+
+    
+
+
+
+
+
+
